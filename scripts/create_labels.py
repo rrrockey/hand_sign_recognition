@@ -51,6 +51,7 @@ class_list = ["call",
 
 split_list = ["train", "val", "test"]
 
+# iterate through classes (hand gestures)
 for class_name in class_list:
 
     # iterate through train, val, test
@@ -72,7 +73,8 @@ for class_name in class_list:
                 continue
 
             # write label file
-            label_dir = os.path.join(labels_root, split)
+            label_dir = os.path.join(labels_root, split, class_name)
+            # print('label file directory: ',label_dir)
             os.makedirs(label_dir, exist_ok=True)
             label_path = os.path.join(label_dir, f"{img_id}.txt")
 
@@ -81,20 +83,17 @@ for class_name in class_list:
                     if label not in class_map:
                         continue
                     class_id = class_map[label]
-                    x_min, y_min, width, height = bbox  # values in COCO, need to be normalized to YOLO format
-                    img = cv2.imread(img_path)
-                    img_height, img_width, _ = img.shape
+                    x_min, y_min, width, height = bbox  # bounding box values in COCO, need to be normalized to YOLO format
+                    img = cv2.imread(img_path) 
 
-                    x_center = (x_min + width / 2) / img_width
-                    y_center = (y_min + height / 2) / img_height
-                    w_norm = width / img_width
-                    h_norm = height / img_height
+                    # normalize values to YOLO standards
+                    x_center = (x_min + width / 2)
+                    y_center = (y_min + height / 2)
 
+                    lf.write(f"{class_id} {x_center} {y_center} {width} {height}\n") # write to the file
 
-                    lf.write(f"{class_id} {x_center} {y_center} {w_norm} {h_norm}\n")
 
 print("✅ Done")
-
 
 
 # import os, shutil, json
