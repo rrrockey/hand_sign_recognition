@@ -2,7 +2,7 @@ import os, random, shutil
 
 random.seed(42)  # reproducibility
 
-SRC_ROOT = "../data/hagrid-sample-120k-384p/hagrid_120k"   # directory where your train_val_* folders live
+SRC_ROOT = "../data/hagrid-sample-120k-384p/hagrid_120k/"   # directory where your train_val_* folders live
 DEST_ROOT = "../data/images"  # output base directory
 
 splits = {"train": 0.7, "val": 0.15, "test": 0.15}
